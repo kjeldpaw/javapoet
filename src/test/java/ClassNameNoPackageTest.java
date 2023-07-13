@@ -17,17 +17,18 @@
 import static com.google.common.truth.Truth.assertThat;
 
 import com.squareup.javapoet.ClassName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Since it is impossible to import classes from the default package into other
  * modules, this test must live in this package.
  */
 public final class ClassNameNoPackageTest {
-  @Test public void shouldSupportClassInDefaultPackage() {
-    ClassName className = ClassName.get(ClassNameNoPackageTest.class);
-    assertThat(className.packageName()).isEqualTo("");
-    assertThat(className.simpleName()).isEqualTo("ClassNameNoPackageTest");
-    assertThat(className.toString()).isEqualTo("ClassNameNoPackageTest");
-  }
+    @Test
+    public void shouldSupportClassInDefaultPackage() {
+        ClassName className = ClassName.get(ClassNameNoPackageTest.class);
+        assertThat(className.packageName()).isEqualTo("");
+        assertThat(className.simpleName()).isEqualTo("ClassNameNoPackageTest");
+        assertThat(className.toString()).isEqualTo("ClassNameNoPackageTest");
+    }
 }

@@ -18,12 +18,25 @@
   <url>http://github.com/square/javapoet/</url>
 
   <properties>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+    <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
+    <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 
-    <java.version>1.8</java.version>
-    <junit.version>4.13.2</junit.version>
+    <assertj-core.version>3.24.2</assertj-core.version>
+    <junit.version>5.10.0</junit.version>
     <truth.version>1.1.5</truth.version>
     <compile-testing.version>0.21.0</compile-testing.version>
+    <mockito-core.version>5.5.0</mockito-core.version>
+    <ecj.version>4.6.1</ecj.version>
+    <jimfs.version>1.3.0</jimfs.version>
+    <checkstyle.version>10.12.3</checkstyle.version>
+    <plexus-compiler-javac-errorprone.version>2.13.0</plexus-compiler-javac-errorprone.version>
+    <error_prone_core.version>2.21.1</error_prone_core.version>
   </properties>
 
   <scm>
@@ -50,11 +63,23 @@
     <url>http://squareup.com</url>
   </organization>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
-      <groupId>com.google.truth</groupId>
-      <artifactId>truth</artifactId>
-      <version>${truth.version}</version>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -64,27 +89,36 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.jimfs</groupId>
       <artifactId>jimfs</artifactId>
-      <version>1.3.0</version>
+      <version>${jimfs.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>4.11.0</version>
+      <version>${mockito-core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jdt.core.compiler</groupId>
       <artifactId>ecj</artifactId>
-      <version>4.6.1</version>
+      <version>${ecj.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -94,23 +128,21 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <compilerId>javac-with-errorprone</compilerId>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
         </configuration>
         <dependencies>
           <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-compiler-javac-errorprone</artifactId>
-            <version>2.8.2</version>
+            <version>${plexus-compiler-javac-errorprone.version}</version>
           </dependency>
           <dependency>
             <groupId>com.google.errorprone</groupId>
             <artifactId>error_prone_core</artifactId>
-            <version>2.3.1</version>
+            <version>${error_prone_core.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -118,12 +150,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>${maven-checkstyle-plugin.version}</version>
         <dependencies>
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.18</version>
+            <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
         <configuration>
@@ -144,7 +176,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>${maven-jar-plugin.version}</version>
         <configuration>
           <archive>
             <manifestEntries>
