@@ -15,52 +15,56 @@
  */
 package com.squareup.javapoet;
 
-import org.junit.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Test;
 
 import javax.lang.model.element.Modifier;
 
-public class FieldSpecTest {
-  @Test public void equalsAndHashCode() {
-    FieldSpec a = FieldSpec.builder(int.class, "foo").build();
-    FieldSpec b = FieldSpec.builder(int.class, "foo").build();
-    assertThat(a.equals(b)).isTrue();
-    assertThat(a.hashCode()).isEqualTo(b.hashCode());
-    assertThat(a.toString()).isEqualTo(b.toString());
-    a = FieldSpec.builder(int.class, "FOO", Modifier.PUBLIC, Modifier.STATIC).build();
-    b = FieldSpec.builder(int.class, "FOO", Modifier.PUBLIC, Modifier.STATIC).build();
-    assertThat(a.equals(b)).isTrue();
-    assertThat(a.hashCode()).isEqualTo(b.hashCode());
-    assertThat(a.toString()).isEqualTo(b.toString());
-  }
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
-  @Test public void nullAnnotationsAddition() {
-    try {
-      FieldSpec.builder(int.class, "foo").addAnnotations(null);
-      fail();
+class FieldSpecTest {
+    @Test
+    void equalsAndHashCode() {
+        FieldSpec a = FieldSpec.builder(int.class, "foo").build();
+        FieldSpec b = FieldSpec.builder(int.class, "foo").build();
+        assertThat(a.equals(b)).isTrue();
+        assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        assertThat(a.toString()).isEqualTo(b.toString());
+        a = FieldSpec.builder(int.class, "FOO", Modifier.PUBLIC, Modifier.STATIC).build();
+        b = FieldSpec.builder(int.class, "FOO", Modifier.PUBLIC, Modifier.STATIC).build();
+        assertThat(a.equals(b)).isTrue();
+        assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        assertThat(a.toString()).isEqualTo(b.toString());
     }
-    catch (IllegalArgumentException expected) {
-      assertThat(expected.getMessage())
-          .isEqualTo("annotationSpecs == null");
+
+    @Test
+    void nullAnnotationsAddition() {
+        try {
+            FieldSpec.builder(int.class, "foo").addAnnotations(null);
+            fail();
+        } catch (IllegalArgumentException expected) {
+            assertThat(expected.getMessage())
+                    .isEqualTo("annotationSpecs == null");
+        }
     }
-  }
 
-  @Test public void modifyAnnotations() {
-    FieldSpec.Builder builder = FieldSpec.builder(int.class, "foo")
-          .addAnnotation(Override.class)
-          .addAnnotation(SuppressWarnings.class);
+    @Test
+    void modifyAnnotations() {
+        FieldSpec.Builder builder = FieldSpec.builder(int.class, "foo")
+                .addAnnotation(Override.class)
+                .addAnnotation(SuppressWarnings.class);
 
-    builder.annotations.remove(1);
-    assertThat(builder.build().annotations).hasSize(1);
-  }
+        builder.annotations.remove(1);
+        assertThat(builder.build().annotations).hasSize(1);
+    }
 
-  @Test public void modifyModifiers() {
-    FieldSpec.Builder builder = FieldSpec.builder(int.class, "foo")
-          .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+    @Test
+    void modifyModifiers() {
+        FieldSpec.Builder builder = FieldSpec.builder(int.class, "foo")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
 
-    builder.modifiers.remove(1);
-    assertThat(builder.build().modifiers).containsExactly(Modifier.PUBLIC);
-  }
+        builder.modifiers.remove(1);
+        assertThat(builder.build().modifiers).containsExactly(Modifier.PUBLIC);
+    }
 }
